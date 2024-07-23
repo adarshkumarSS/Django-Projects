@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block start %}
+
+<nav class="navbar p-2 bg-dark shadow-lg " >
+  <div class="container-fluid">
+    <a class="navbar-brand fst-italic fw-bold " style="color: rgb(255, 174, 0);">Recipe Page </a>
+    <form class="d-flex" role="search">
+
+      <a  href="/logout" class="btn btn-outline-warning" type="submit">
+          Logout
+      </a>
+
+    </form>
+  </div>
+</nav>
+
+
+<div class="container mt-5 " >
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data" style="background-color: #fff0dc";>
+        {% csrf_token %}
+        <center>
+            <h2>Recipe Page</h2>
+            <h6>Add your favorite recipe here</h6>
+          
+        </center>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Recipe name:</label>
+          <input name="receipi_name" required type="text" class="form-control" placeholder="enter the food name">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Recipe Description: </label>
+          <textarea class="form-control" name = "receipi_description" required placeholder="enter the recipe description"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Recipe image: </label>
+            <input name="receipi_image" type="file" class="form-control"></input>
+          </div>
+        <button type="submit" class="btn btn-primary">Add Recipe</button>
+      </form>
+      <hr>
+
+      <div class="mt-5">
+        <div class="mx-auto col-6">
+          <form action="">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Search Food:</label>
+            <input name="search" type="text" class="form-control" placeholder="search">
+          </div>
+          <button type="submit" class="btn btn-info" >Search</button>
+        </form>
+        </div>
+      </div>
+    <table class="table mt-5" >
+      <thead class="text-center">
+        <tr>
+          <th scope="col">S.no</th>
+          <th scope="col">Recipe Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Image</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for recipe in receipe%}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{recipe.receipi_name}}</td>
+          <td>{{recipe.receipi_description}}</td>
+          <td> <img src="/media/{{recipe.receipi_image}}" style=" height : 100px "></td>
+          <td>
+            <center>
+                <a href="/update-receipe/{{recipe.id}}/" class="btn btn-success flex-fill">Update</a>
+                <a href="/delete-receipe/{{recipe.id}}/" class="btn btn-danger m-2 flex-fill">Delete</a>
+            </center>
+        </td>
+        
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table> 
+
+
+</div>
+{% endblock %}
