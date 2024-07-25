@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 {% block start %}
 
-    <h1>This is index page </h1>
+<div class="container mt-5">
+  <h1>Email Page</h1>
+  <a href="{% url 'send_email' %}" class="btn btn-warning">Send Mail</a>
+</div>
+
+
+
     
-    <table class="container">
+    <table class="container mt-5">
         <tr>
           <th>s.no</th>
           <th>name</th>
@@ -28,13 +34,7 @@
         </tr>
         {% endfor %}
       </table>
-      <a href="/contact/">
-        contact
-       </a>
-       |
-       <a href="/about/">
-        about
-       </a>
+      
 
       <p>
       </p>

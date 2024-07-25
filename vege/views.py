@@ -27,6 +27,7 @@ def receipe(request):  # sourcery skip: extract-method
 
         )
         return redirect('/receipe/')
+    
     queryset=receipes.objects.all()
    
     if request.GET.get('search'):
@@ -113,8 +114,6 @@ def register(request):
             messages.error(request, "Password required")
             return redirect('/register/')
         
-        
-
         user=User.objects.filter(username = username)
         if user.exists():
             messages.error(request, "Username Exists")

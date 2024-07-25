@@ -1,5 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from .utils import send_email_to_client
+from vege.seed import *
+
+
+
+def send_email(request):
+    send_email_to_client()
+    return redirect('/')
+
+
+
+
+
+
+
 
 def home(request):
     peoples=[
@@ -8,9 +23,7 @@ def home(request):
         {'name':'chaitanya','age':3},
         {'name':'surya','age':63}
     ]
-    for people in peoples:
-        if people['age'] :
-            print("yes")
+   
     vegetables={'pumpkin','tomato','potato'}
     return render(request,"home\index.html", context={'page':'Django Server','peoples':peoples,'veetables':vegetables})
 def about(request):
