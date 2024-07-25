@@ -1,12 +1,18 @@
-from .models import student
-import time
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.conf import settings
 
-def send_email_to_client():
-    subject = "This email is from Django Server"
-    message = "This email is a test message from Django Server"
-    from_email = settings.EMAIL_HOST_USER
-    recipient_list = ['mithles2k50@gmail.com']
 
-    return send_mail(subject , message , from_email , recipient_list)
+def send_email_to_client():
+    subject = "This email is from Django server"
+    message = "This is a test message from Django server"
+    from_email = settings.EMAIL_HOST_USER
+    recipient_list = ["zainadarsh@gmail.com"]
+
+    send_mail(subject,message,from_email,recipient_list)
+
+def send_email_with_attachments(subject, message, recipient_list, file_path):
+    mail = EmailMessage( subject = subject, body = message ,from_email=settings.EMAIL_HOST_USER,
+                        to = recipient_list
+                        )
+    mail.attach_file(file_path)
+    mail.send()

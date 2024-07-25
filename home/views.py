@@ -1,20 +1,20 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .utils import send_email_to_client
+from .utils import send_email_to_client, send_email_with_attachments
 from vege.seed import *
+from django.conf import settings
 
-
+#def send_email(request):
+    #send_email_to_client()
+    #return redirect('/')
 
 def send_email(request):
-    send_email_to_client()
+    subject = "This email is from Django server with attachment"
+    message = "this attached file is for you"
+    recipient_list = ["zainadarsh@gmail.com"]
+    file_path = f"{settings.BASE_DIR}/main.xlsx"
+    send_email_with_attachments(subject, message, recipient_list, file_path)
     return redirect('/')
-
-
-
-
-
-
-
 
 def home(request):
     peoples=[
@@ -25,7 +25,7 @@ def home(request):
     ]
    
     vegetables={'pumpkin','tomato','potato'}
-    return render(request,"home\index.html", context={'page':'Django Server','peoples':peoples,'veetables':vegetables})
+    return render(request,"home/index.html", context={'page':'Django Server','peoples':peoples,'veetables':vegetables})
 def about(request):
     context = {'page' : 'about'}
     return render(request,"home/about.html", context)
