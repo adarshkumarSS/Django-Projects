@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block start %}
+
+<nav class="navbar p-2 bg-dark shadow-lg " >
+  <div class="container-fluid">
+    <a class="navbar-brand fst-italic fw-bold text-centered" style="color: rgb(255, 174, 0);">Students Record 2024 </a>
+    <form class="d-flex" role="search">
+
+      <a  href="/student_logout/" class="btn btn-outline-warning" type="submit">
+          Logout
+      </a>
+
+    </form>
+  </div>
+</nav>
+<div class="container mt-5">
+  {% for d in detail %}
+    <h6>Department : {{ d.department.department }}</h6>
+    <h6>Name : {{ d.student_name }}</h6>
+    <h6>Age : {{ d.student_age }}</h6>
+    <h6>Mail :{{ d.student_email }}</h6>
+  {% endfor %}
+  <div>
+    <h4>Rank : {{queryset.first.student.studentreportcard.first.student_rank}}</h4>
+    <h4>Total Marks: {{total_marks.total_marks}}</h4>
+    <h4>Date of Result: {{queryset.first.student.studentreportcard.first.date_of_report_card_generation}}</h4>
+  </div>
+  <table class="table table-striped">
+    <tbody>
+        {% for marks in queryset %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <b>
+          <td>{{marks.subject.subject_name}}</td>
+        </b>  
+        <td>{{ marks.marks }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+
+
+
+{% endblock %}

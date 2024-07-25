@@ -29,11 +29,15 @@ urlpatterns = [
     path('about/', about , name="about"),
     path('admin/', admin.site.urls),
     path('delete-receipe/<id>/',delete_receipe, name="delete_receipe" ),
-    path('update-receipe/<id>/',update_receipe, name="update_receipe" ),
+    path('update-receipe/<slug>/',update_receipe, name="update_receipe" ),
     path('login/',login_page, name="login_page" ),
     path('register/',register, name="register" ),
     path('logout/',logout_page, name="logout_page" ),
     path('students/',get_students, name="get_students"),
+    path('student_login/',student_login, name="student_login"),
+    path('student_logout/',student_logout, name="student_logout"),
+    path('student_register/',student_register, name="student_register"),
+    path('see-marks/<student_id>/', see_marks, name="see_marks"),
 
 ]
 

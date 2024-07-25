@@ -1,12 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+from vege.utils import generate_slug
+
 # Create your models here.
 class receipes(models.Model):
     user= models.ForeignKey(User , on_delete=models.CASCADE , null=True , blank=True  )
     receipi_name= models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
     receipi_description = models.TextField()
     receipi_image= models.ImageField(upload_to="receipe")
     recipi_view_count = models.IntegerField(default=1)
+
+    def save(self , *args , **kwargs):
+        self.slug = generate_slug(self.receipi_name)
+        super(receipes, self).save(*args , **kwargs)
 
 class Department(models.Model):
     department= models.CharField(max_length=100)
@@ -18,11 +28,11 @@ class Department(models.Model):
         ordering = ['department']
 
 class StudentID(models.Model):
-    student_id=models.CharField(max_length=100)
+    student_id = models.CharField(max_length=100)
 
     def __str__(self) -> str:
         return self.student_id
-    
+
 class Subject(models.Model):
     subject_name = models.CharField(max_length=100)
 
@@ -31,9 +41,9 @@ class Subject(models.Model):
 
 class Student(models.Model):
     department = models.ForeignKey(Department ,related_name = "depart" , on_delete = models.CASCADE)
-    student_id = models.OneToOneField(StudentID ,related_name = "studentid" , on_delete = models.CASCADE)
+    student_id = models.OneToOneField(StudentID, related_name="studentid" ,on_delete=models.CASCADE)
     student_name = models.CharField(max_length= 100)
-    student_email = models.EmailField(unique=True)
+    student_email = models.EmailField()
     student_age = models.IntegerField(default= 18)
     student_address = models.TextField()
 
@@ -44,8 +54,6 @@ class Student(models.Model):
         ordering = ['student_name']
         verbose_name="student"
     
-
-
 
 class SubjectMarks(models.Model):
     student = models.ForeignKey(Student , related_name= "studentmarks" , on_delete=models.CASCADE)
@@ -58,3 +66,10 @@ class SubjectMarks(models.Model):
     class Meta:
         unique_together = ['student','subject']
 
+class ReportCard(models.Model):
+    student = models.ForeignKey(Student , related_name= "studentreportcard" , on_delete=models.CASCADE)
+    student_rank = models.IntegerField()
+    date_of_report_card_generation = models.DateField(auto_now_add=True)
+
+    class Meta:
+        unique_together=[ 'student_rank' , 'date_of_report_card_generation']

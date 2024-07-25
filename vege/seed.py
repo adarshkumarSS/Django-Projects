@@ -1,7 +1,8 @@
 from faker import Faker
-fake = Faker().unique 
+fake = Faker()
 import random
-from .models import *
+from vege.models import *
+from django.db.models import Sum
 
 def create_subject_marks(n):
     try:
@@ -19,31 +20,42 @@ def create_subject_marks(n):
         
 def seed_db(n=100)->None:
     try:
-        for i in range (0,n):
+            arr = []
+            for j in range(0,n):
+                if j in arr:
+                    continue
+                else:
+                    student_id =  j
+                    arr.append(j)
+                    departments_objs= Department.objects.all()
+                    random_index = random.randint(0, len(departments_objs)-1)
+                    department = departments_objs[random_index]
+                    
+                    student_name = fake.name() 
+                    student_email = fake.email()
+                    student_age = random.randint(20,30)
+                    student_address = fake.address()
 
-            departments_objs= Department.objects.all()
-            random_index = random.randint(0, len(departments_objs)-1)
-            department = departments_objs[random_index]
-            student_id = f'{fake.random_int(min=100, max=999)}'
-            student_name = fake.name() 
-            student_email = fake.email()
-            student_age = random.randint(20,30)
-            student_address = fake.address()
+                    student_id_obj = StudentID.objects.create(student_id = student_id)
+                    student_obj = Student.objects.create(
+                        department =department,
+                        student_id =student_id_obj,
+                        student_name = student_name,
+                        student_email = student_email,
+                        student_age = student_age,
+                        student_address = student_address
 
-            student_id_obj = StudentID.objects.create(student_id=student_id)
-
-            student_obj = Student.objects.create(
-                department =department,
-                student_id =student_id_obj,
-                student_name = student_name,
-                student_email = student_email,
-                student_age = student_age,
-                student_address = student_address
-
-            )
+                    )
+            
     except Exception as e:
         print(e)
 
-
-
-   
+def generate_report_card():
+    ranks = Student.objects.annotate(marks = Sum('studentmarks__marks')).order_by('-marks')
+    i=1
+    for rank in ranks:
+        ReportCard.objects.create(
+            student = rank,
+            student_rank = i
+        )
+        i=i+1

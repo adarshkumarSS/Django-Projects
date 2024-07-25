@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block start %}
 
+
+<nav class="navbar p-2 bg-dark shadow-lg " >
+  <div class="container-fluid">
+    <a class="navbar-brand fst-italic fw-bold text-centered" style="color: rgb(255, 174, 0);">Students Record 2024 </a>
+    <form class="d-flex" role="search">
+
+      <a  href="/student_logout/" class="btn btn-outline-warning" type="submit">
+          Logout
+      </a>
+
+    </form>
+  </div>
+</nav>
+
+
+
 <div class="container mt-5 ">
 
   <form class="mb-4">
@@ -9,7 +25,7 @@
           <input class="form-control" name="search" placeholder="search">
       </div>
       <div class="col-md-6">
-        <button class="btn btn-success">Search</button>
+        <button class="btn btn-warning">Search</button>
     </div>
   </form>
 
@@ -17,7 +33,6 @@
     <table class="table table-striped">
         <thead>
           <tr>
-
             <th scope="col">S.No</th>
             <th scope="col">ID</th>
             <th scope="col">Department</th>
@@ -30,7 +45,9 @@
             {% for student in queryset %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ student.student_id.student_id }}</td>
+                <td>
+                  <a href="{% url 'see_marks' student.student_id %}">{{ student.student_id}}</a>
+                  </td>
                 <td>{{ student.department.department }}</td>
                 <td>{{ student.student_name }}</td>
                 <td>{{ student.student_age }}</td>
@@ -42,22 +59,38 @@
      
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-      
-              {% if queryset.has_previous %}
-              <li class="page-item"><a class="page-link" href="?page=1">&laquo; first </a> </li>
-              <li class="page-item"><a class="page-link " href="?page={{ queryset.previous_page_number }}">previous</a></li>
-              {% endif %}
-    
-              <span class="current">
-                  Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}
-              </span>
-    
-              {% if queryset.has_next %}
-              <li class="page-item"><a class="page-link" href="?page={{ queryset.next_page_number }}">next</a></li>
-              <li class="page-item"><a class="page-link" href="?page={{ queryset.paginator.num_pages }}">last &raquo;</a></li>
-              {% endif %}
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a  href="?search={{ search_query }}&page=1" class="btn btn-outline-dark" type="submit">
+                      First
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a  href="?search={{ search_query }}&page={{ page_obj.previous_page_number }}" class="btn btn-outline-dark" type="submit">
+                      Previous
+                    </a>
+                </li>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a  href="?search={{ search_query }}&page={{ page_obj.next_page_number }}" class="btn btn-outline-dark" type="submit">
+                      Next
+                    </a>
+                </li>
+                <li class="page-item">
+                  <a  href="?search={{ search_query }}&page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-dark" type="submit">
+                    Last
+                  </a>
+                </li>
+            {% endif %}
         </ul>
-      </nav>
+    </nav>
+    
 
 
 </div>
