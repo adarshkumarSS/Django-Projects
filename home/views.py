@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .utils import send_email_to_client, send_email_with_attachments
 from vege.seed import *
 from django.conf import settings
+from home.models import car
 
 #def send_email(request):
     #send_email_to_client()
@@ -17,6 +18,9 @@ def send_email(request):
     return redirect('/')
 
 def home(request):
+
+    car.objects.create(car_name = f'{random.randint(0,100)}')
+
     peoples=[
         {'name':'adarsh','age':12},
         {'name':'mithles','age':18},

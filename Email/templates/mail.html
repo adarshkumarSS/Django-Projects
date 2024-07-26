@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block start %}
+
+
+
+<div class="container mt-5 ">
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" action="{% url 'sending_mail' %}"  style="background-color: #fff0dc";>
+        {% csrf_token %}
+        <center>
+            <h2>Email</h2>
+            <h6>send email here</h6>
+            <hr>
+        </center>
+        {% if messages %}
+
+            {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% else %}alert-primary{% endif %}" role="alert"> 
+              {{ message }}
+          </div>
+            {% endfor %}
+
+        {% endif %}
+
+            <div class="mb-3">
+              <label for="" class="form-label" >Email ID:</label>
+              <input required type="email" class="form-control" name="recipient_email"  id="recipient_email" aria-describedby="emailHelp" placeholder="email">
+            </div>
+            <div class="mb-3">
+              <label for="subject" class="form-label">Subject :</label>
+              <input type="text" class="form-control" name="subject" id="subject" placeholder="subject"> 
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Message :</label>
+              <input type="text" class="form-control" name="message" id="message" placeholder="message"> 
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+</div>
+{% endblock %}

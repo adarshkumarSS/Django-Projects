@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path
 from home.views import *
 from vege.views import *
+from Email.views import *
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
+    path('send/', sending_mail, name='sending_mail'),
     path('', home , name="home"),    
-    path('/',send_email,name = "send_email"),    
+    path('send_email/',send_email,name = "send_email"),    
     path('receipe/', receipe , name="receipe"),
     path('contact/', contact , name="contact"),
     path('about/', about , name="about"),

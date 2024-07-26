@@ -16,3 +16,4 @@ def send_email_with_attachments(subject, message, recipient_list, file_path):
                         )
     mail.attach_file(file_path)
     mail.send()
+
