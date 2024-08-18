@@ -7,8 +7,10 @@ from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required   
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
+#from vege.seed import generate_report_card
 
-User = get_user_model()
+#CUSTOM USER MODEL
+# User = get_user_model()
 
 # Create your views here.
 @login_required(login_url="/login/")
@@ -221,7 +223,7 @@ def get_students(request):
     print(context)
     return render(request, 'report/students.html' ,context )
 
-from vege.seed import generate_report_card
+
 
 def see_marks(request , student_id):
     #generate_report_card()

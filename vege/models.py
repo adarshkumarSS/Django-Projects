@@ -1,8 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 
-User = get_user_model()
+# CUSTOM USER MODEL
+# from django.contrib.auth import get_user_model
+
+# User = get_user_model()
+
+
 from vege.utils import generate_slug
 
 # Create your models here.
